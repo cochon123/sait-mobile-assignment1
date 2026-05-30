@@ -6,8 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  SafeAreaView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TWEETS = [
   {
@@ -82,10 +82,12 @@ function Header() {
         <Avatar initial="M" bg="#1DA1F2" />
       </View>
       <View style={styles.headerCenter}>
-        <Text style={styles.xLogo}>𝕏</Text>
+        <Text style={styles.xLogo}>X</Text>
       </View>
       <View style={styles.headerRight}>
-        <Text style={styles.headerIcon}>⚙️</Text>
+        <View style={styles.settingsIcon}>
+          <Text style={styles.settingsIconText}>+</Text>
+        </View>
       </View>
     </View>
   );
@@ -94,8 +96,9 @@ function Header() {
 function TabBar() {
   return (
     <View style={styles.tabBar}>
-      <View style={[styles.tab, styles.tabActive]}>
+      <View style={styles.tabActiveWrap}>
         <Text style={styles.tabTextActive}>For you</Text>
+        <View style={styles.tabIndicator} />
       </View>
       <View style={styles.tab}>
         <Text style={styles.tabText}>Following</Text>
@@ -124,24 +127,32 @@ function Tweet({ name, handle, time, text, replies, retweets, likes, avatarBg, a
       <View style={styles.tweetRight}>
         <View style={styles.tweetHeader}>
           <Text style={styles.tweetName} numberOfLines={1}>{name}</Text>
-          <Text style={styles.tweetHandle} numberOfLines={1}> {handle} · {time}</Text>
+          <Text style={styles.tweetHandle} numberOfLines={1}> {handle} . {time}</Text>
         </View>
         <Text style={styles.tweetText}>{text}</Text>
         <View style={styles.tweetActions}>
           <View style={styles.actionGroup}>
-            <Text style={styles.actionIcon}>💬</Text>
+            <View style={[styles.actionCircle, { backgroundColor: '#1DA1F2' }]}>
+              <Text style={styles.actionSymbol}>^</Text>
+            </View>
             <Text style={styles.actionCount}>{replies}</Text>
           </View>
           <View style={styles.actionGroup}>
-            <Text style={styles.actionIcon}>🔁</Text>
+            <View style={[styles.actionCircle, { backgroundColor: '#17BF63' }]}>
+              <Text style={styles.actionSymbol}>R</Text>
+            </View>
             <Text style={styles.actionCount}>{retweets}</Text>
           </View>
           <View style={styles.actionGroup}>
-            <Text style={styles.actionIcon}>❤️</Text>
+            <View style={[styles.actionCircle, { backgroundColor: '#E0245E' }]}>
+              <Text style={styles.actionSymbol}>*</Text>
+            </View>
             <Text style={styles.actionCount}>{likes}</Text>
           </View>
           <View style={styles.actionGroup}>
-            <Text style={styles.actionIcon}>📤</Text>
+            <View style={[styles.actionCircle, { backgroundColor: '#1DA1F2' }]}>
+              <Text style={styles.actionSymbol}>-</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -153,19 +164,27 @@ function BottomBar() {
   return (
     <View style={styles.bottomBar}>
       <View style={styles.bottomItem}>
-        <Text style={styles.bottomIcon}>🏠</Text>
+        <View style={styles.bottomCircle}>
+          <Text style={styles.bottomSymbol}>H</Text>
+        </View>
         <Text style={styles.bottomLabel}>Home</Text>
       </View>
       <View style={styles.bottomItem}>
-        <Text style={styles.bottomIcon}>🔍</Text>
+        <View style={styles.bottomCircle}>
+          <Text style={styles.bottomSymbol}>S</Text>
+        </View>
         <Text style={styles.bottomLabel}>Search</Text>
       </View>
       <View style={styles.bottomItem}>
-        <Text style={styles.bottomIcon}>🔔</Text>
+        <View style={styles.bottomCircle}>
+          <Text style={styles.bottomSymbol}>N</Text>
+        </View>
         <Text style={styles.bottomLabel}>Notifications</Text>
       </View>
       <View style={styles.bottomItem}>
-        <Text style={styles.bottomIcon}>✉️</Text>
+        <View style={styles.bottomCircle}>
+          <Text style={styles.bottomSymbol}>M</Text>
+        </View>
         <Text style={styles.bottomLabel}>Mail</Text>
       </View>
     </View>
@@ -193,7 +212,7 @@ export default function App() {
         >
           <Text style={styles.alertButtonText}>Alert</Text>
         </TouchableOpacity>
-        <View style={{ height: 80 }} />
+        <View style={{ height: 20 }} />
       </ScrollView>
       <BottomBar />
     </SafeAreaView>
@@ -211,8 +230,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 10,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#E1E8ED',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EFF3F4',
   },
   headerLeft: {
     width: 40,
@@ -226,34 +245,56 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   xLogo: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '900',
+    color: '#000000',
   },
-  headerIcon: {
+  settingsIcon: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#000000',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  settingsIconText: {
+    color: '#FFFFFF',
     fontSize: 20,
+    fontWeight: '700',
+    lineHeight: 24,
   },
   tabBar: {
     flexDirection: 'row',
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#E1E8ED',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EFF3F4',
+  },
+  tabActiveWrap: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 14,
+  },
+  tabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    width: 56,
+    height: 3,
+    backgroundColor: '#1DA1F2',
+    borderRadius: 2,
   },
   tab: {
     flex: 1,
     alignItems: 'center',
     paddingVertical: 14,
   },
-  tabActive: {
-    borderBottomWidth: 3,
-    borderBottomColor: '#1DA1F2',
-  },
   tabText: {
     fontSize: 15,
-    color: '#657786',
+    color: '#536471',
     fontWeight: '500',
   },
   tabTextActive: {
     fontSize: 15,
     fontWeight: '700',
+    color: '#000000',
   },
   feed: {
     flex: 1,
@@ -270,11 +311,11 @@ const styles = StyleSheet.create({
   },
   composerPlaceholder: {
     fontSize: 18,
-    color: '#9CA3AF',
+    color: '#536471',
   },
   divider: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#E1E8ED',
+    height: 1,
+    backgroundColor: '#EFF3F4',
   },
   avatar: {
     width: 48,
@@ -306,36 +347,49 @@ const styles = StyleSheet.create({
   tweetName: {
     fontWeight: '700',
     fontSize: 15,
+    color: '#000000',
   },
   tweetHandle: {
     fontSize: 14,
-    color: '#657786',
+    color: '#536471',
   },
   tweetText: {
     fontSize: 15,
     lineHeight: 20,
     marginBottom: 10,
+    color: '#000000',
   },
   tweetActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingRight: 20,
+    paddingRight: 16,
   },
   actionGroup: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  actionIcon: {
-    fontSize: 16,
+  actionCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 4,
+  },
+  actionSymbol: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '700',
   },
   actionCount: {
     fontSize: 12,
-    color: '#657786',
+    color: '#536471',
+    marginLeft: 2,
   },
   bottomBar: {
     flexDirection: 'row',
-    borderTopWidth: 0.5,
-    borderTopColor: '#E1E8ED',
+    borderTopWidth: 1,
+    borderTopColor: '#EFF3F4',
     paddingVertical: 8,
     paddingBottom: 12,
     backgroundColor: '#FFFFFF',
@@ -344,12 +398,22 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  bottomIcon: {
-    fontSize: 22,
+  bottomCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#EFF3F4',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomSymbol: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000000',
   },
   bottomLabel: {
     fontSize: 10,
-    color: '#657786',
+    color: '#536471',
     marginTop: 2,
   },
   alertButton: {
