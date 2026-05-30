@@ -4,6 +4,8 @@ import {
   Text,
   View,
   ScrollView,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -185,6 +187,12 @@ export default function App() {
             <View style={styles.divider} />
           </View>
         ))}
+        <TouchableOpacity
+          style={styles.alertButton}
+          onPress={() => Alert.alert('Alert Button pressed')}
+        >
+          <Text style={styles.alertButtonText}>Alert</Text>
+        </TouchableOpacity>
         <View style={{ height: 80 }} />
       </ScrollView>
       <BottomBar />
@@ -344,5 +352,18 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#657786',
     marginTop: 2,
+  },
+  alertButton: {
+    backgroundColor: '#1DA1F2',
+    marginHorizontal: 16,
+    marginVertical: 20,
+    paddingVertical: 14,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+  alertButtonText: {
+    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: '700',
   },
 });
