@@ -324,7 +324,6 @@ const styles = StyleSheet.create({
   actionGroup: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
   },
   actionIcon: {
     fontSize: 16,
